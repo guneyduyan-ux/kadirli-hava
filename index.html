@@ -1,45 +1,82 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <style>
-body{margin:0;background:transparent;font-family:Arial Black;}
-.card{
-width:380px;height:220px;
-background:linear-gradient(135deg,#444,#222);
-border-radius:18px;
-color:white;padding:15px;
-box-shadow:0 0 25px rgba(0,255,255,.5);
-border:2px solid #00ffff;
+body{
+  margin:0;
+  background:transparent;
+  overflow:hidden;
+  font-family: Arial Black;
 }
-.city{font-size:22px;color:#00ffff;}
-.temp{font-size:64px;font-weight:900;}
-.row{display:flex;gap:15px;margin-top:5px;}
-.small{font-size:18px;}
-.footer{font-size:11px;margin-top:8px;opacity:.8;}
+
+.card{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:360px;
+  height:210px;
+  background:linear-gradient(135deg,#111,#333);
+  border-radius:18px;
+  border:2px solid #00ffff;
+  box-shadow:0 0 25px rgba(0,255,255,.6);
+  color:white;
+  padding:15px;
+}
+
+.city{
+  font-size:22px;
+  color:#00ffff;
+}
+
+.temp{
+  font-size:64px;
+  font-weight:900;
+}
+
+.desc{
+  font-size:18px;
+  opacity:.9;
+}
+
+.row{
+  display:flex;
+  gap:18px;
+  margin-top:10px;
+  font-size:18px;
+}
+
+.footer{
+  font-size:12px;
+  margin-top:8px;
+  opacity:.7;
+}
 </style>
 </head>
+
 <body>
+
 <div class="card">
   <div class="city">KADİRLİ</div>
   <div id="temp" class="temp">--°C</div>
-  <div id="desc" class="small">Yükleniyor...</div>
+  <div id="desc" class="desc">Yükleniyor…</div>
   <div class="row">
-    <div id="wind">🌬 -- km/sa</div>
+    <div id="wind">💨 -- km/sa</div>
     <div id="hum">💧 --%</div>
   </div>
   <div class="footer">Radyo Güney TV • Canlı Hava</div>
 </div>
 
 <script>
-fetch("https://api.weatherapi.com/v1/current.json?key=5b6f5d0cce7a4e8a8f2133502251201&q=37.373,36.096&lang=tr")
+fetch("https://api.open-meteo.com/v1/forecast?latitude=37.373&longitude=36.0968&current_weather=true&hourly=relativehumidity_2m,windspeed_10m")
 .then(r=>r.json())
 .then(d=>{
-document.getElementById("temp").innerHTML=Math.round(d.current.temp_c)+"°C";
-document.getElementById("desc").innerHTML=d.current.condition.text;
-document.getElementById("wind").innerHTML="🌬 "+Math.round(d.current.wind_kph)+" km/sa";
-document.getElementById("hum").innerHTML="💧 "+d.current.humidity+"%";
+  document.getElementById("temp").innerHTML = Math.round(d.current_weather.temperature) + "°C";
+  document.getElementById("wind").innerHTML = "💨 " + Math.round(d.current_weather.windspeed) + " km/sa";
+  document.getElementById("hum").innerHTML = "💧 " + d.hourly.relativehumidity_2m[0] + "%";
+  document.getElementById("desc").innerHTML = "Kadirli Canlı Hava";
 });
 </script>
+
 </body>
 </html>
