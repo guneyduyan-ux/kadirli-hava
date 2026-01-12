@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<style>
+body{margin:0;background:transparent;font-family:Arial Black;}
+.card{
+width:380px;height:220px;
+background:linear-gradient(135deg,#444,#222);
+border-radius:18px;
+color:white;padding:15px;
+box-shadow:0 0 25px rgba(0,255,255,.5);
+border:2px solid #00ffff;
+}
+.city{font-size:22px;color:#00ffff;}
+.temp{font-size:64px;font-weight:900;}
+.row{display:flex;gap:15px;margin-top:5px;}
+.small{font-size:18px;}
+.footer{font-size:11px;margin-top:8px;opacity:.8;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="city">KADİRLİ</div>
+  <div id="temp" class="temp">--°C</div>
+  <div id="desc" class="small">Yükleniyor...</div>
+  <div class="row">
+    <div id="wind">🌬 -- km/sa</div>
+    <div id="hum">💧 --%</div>
+  </div>
+  <div class="footer">Radyo Güney TV • Canlı Hava</div>
+</div>
+
+<script>
+fetch("https://api.weatherapi.com/v1/current.json?key=5b6f5d0cce7a4e8a8f2133502251201&q=37.373,36.096&lang=tr")
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("temp").innerHTML=Math.round(d.current.temp_c)+"°C";
+document.getElementById("desc").innerHTML=d.current.condition.text;
+document.getElementById("wind").innerHTML="🌬 "+Math.round(d.current.wind_kph)+" km/sa";
+document.getElementById("hum").innerHTML="💧 "+d.current.humidity+"%";
+});
+</script>
+</body>
+</html>
